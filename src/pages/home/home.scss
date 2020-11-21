@@ -1,0 +1,19 @@
+
+
+.home{
+    .block-container{
+        line-height: 5px;
+        font-size: 5px;
+    }
+    .block{
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-left: 1px solid #ccc;
+    }
+
+    .day-row{
+        padding: 15px;
+        border-bottom: 1px solid #ccc;
+    }
+}
