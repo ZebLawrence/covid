@@ -24,7 +24,7 @@ class App extends Component {
                   const page = pages[pageKey];
                   const component = asyncComponent(() => import(`../pages/${page.componentPath}`));
                   return(
-                    <Route exact path={page.path} component={component}/>
+                    <Route key={page.componentPath} exact path={page.path} component={component}/>
                   );
                 })
               }

@@ -32,7 +32,7 @@ class Daily extends Component {
                     const year = `${date}`.slice(0, 4);
                     const month = `${date}`.slice(4, 6);
                     const dayNum = `${date}`.slice(6, 8);
-                    const dateFormat = `${month}-${dayNum}-${year}`;
+                    const dateFormat = `${month}/${dayNum}/${year}`;
                     return (
                         <div className="day-row">
                             <RenderBlocks currentCopy={`${moment(dateFormat).format('MMM D YYYY')}:  `} count={deathIncrease} />

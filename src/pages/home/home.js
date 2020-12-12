@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { requestCurrentStats } from '../../actions/covidActions';
+//import allImages from '../../components/image/imageJson';
 import RenderBlocks from './RenderBlocks';
+import '../../assets/images.scss';
 import './home.scss';
 
 class Home extends Component {
@@ -23,8 +25,9 @@ class Home extends Component {
     const year = `${date}`.slice(0, 4);
     const month = `${date}`.slice(4, 6);
     const dayNum = `${date}`.slice(6, 8);
-    const dateFormat = `${month}-${dayNum}-${year}`;
-  
+    const dateFormat = `${month}/${dayNum}/${year}`;
+    //const images = allImages;
+
     return (
       <div>
         <div>

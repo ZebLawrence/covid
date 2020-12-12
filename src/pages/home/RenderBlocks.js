@@ -15,9 +15,9 @@ class RenderBlocks extends Component {
     };
     this.renderChunk = this.renderChunk.bind(this);
     this.toggleRender = this.toggleRender.bind(this);
-}
+  }
 
-componentDidMount() {
+  componentDidMount() {
     this.renderChunk(this.props.count);
   }
 
@@ -30,34 +30,35 @@ componentDidMount() {
   }
 
   renderChunk(count) {
+    //const { images } = this.props;
     const { chunks, allowRender, currentCount } = this.state;
     const chunkSize = count < 25000 ? count : 25000;
     if (allowRender) {
-        const blocks = [];
-        for (let index = 0; index < chunkSize; index++) {
-          const backgroundColor = `rgba(${getRandomInt(255, 248)},${getRandomInt(255, 248)},${getRandomInt(255, 248)},1)`;
-          blocks.push(
-            <span className="block" style={{ backgroundColor }}></span>
-          );    
-        }
-        const newCount = count - chunkSize;
-        this.setState({
-            chunks: chunks.concat(blocks)
-        }, () => {
-    
-            window.setTimeout(() => {
-              if (chunkSize >= 25000) {
-                  this.renderChunk(newCount);
-              } else {
-                  this.setState({
-                    rendering: false
-                  });
-              }
-            }, 200);
-        });
+      const blocks = [];
+      for (let index = 0; index < chunkSize; index++) {
+        const imageNumber = getRandomInt(189);
+        //const image = images[`image${imageNumber}`] || images[`image1`];
+
+        blocks.push(
+          <span className={`block ${`image${imageNumber}`}`}></span>
+        );    
+      }
+      const newCount = count - chunkSize;
+      this.setState({
+        chunks: chunks.concat(blocks)
+      }, () => { 
+        window.setTimeout(() => {
+          if (chunkSize >= 25000) {
+              this.renderChunk(newCount);
+          } else {
+              this.setState({
+                rendering: false
+              });
+          }
+        }, 200);
+      });
     }
   }
-
 
   render() {
     const { chunks, rendering, allowRender, leftToGo } = this.state;

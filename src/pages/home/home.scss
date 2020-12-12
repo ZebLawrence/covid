@@ -2,14 +2,16 @@
 
 .home{
     .block-container{
-        line-height: 5px;
-        font-size: 5px;
+        line-height: 10px;
+        font-size: 10px;
     }
     .block{
         display: inline-block;
-        width: 5px;
-        height: 5px;
+        width: 10px;
+        height: 10px;
         border-left: 1px solid #ccc;
+        background-repeat: no-repeat;
+        background-size: 10px 10px;
     }
 
     .day-row{
