@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import rootSaga from './sagas/index';
 
-export default function buildStore(apiUrl) {
+export default function buildStore() {
     let myState;
     const sagaMiddleWare = createSagaMiddleware();
     const middleware = applyMiddleware(sagaMiddleWare, reduxMulti);
@@ -12,7 +12,7 @@ export default function buildStore(apiUrl) {
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     const store = createStore(rootReducer, myState, composeEnhancers(enhancer));
 
-    sagaMiddleWare.run(rootSaga(apiUrl));
+    sagaMiddleWare.run(rootSaga());
 
     return store;
 }

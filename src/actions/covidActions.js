@@ -20,6 +20,16 @@ const requestDailyStats = () => {
     };  
 };
 
+const requestPopulation = () => {
+    return {
+        endPoint: `/us?_=${Date.now()}`,
+        ajaxType: 'GET',
+        type: types.POP_API_REQUEST_GET_POPULATION,
+        onSuccess: receivePopulation,
+        fetchName: 'fetchingPopulation'
+    };  
+};
+
 const receiveCurrentStats = response => {
     return {
         type: types.API_RECEIVE_CURRENT_STATS,
@@ -34,7 +44,15 @@ const receiveDailyStats = response => {
     };
 };
 
+const receivePopulation = response => {
+    return {
+        type: types.POP_API_RECEIVE_GET_POPULATION,
+        response
+    };
+};
+
 export {
     requestCurrentStats,
-    requestDailyStats
+    requestDailyStats,
+    requestPopulation
 }

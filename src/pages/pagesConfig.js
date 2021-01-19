@@ -12,6 +12,13 @@ const daily = {
     path: '/daily'
 };
 
+const about = {
+    name: 'About',
+    bodyClass: 'home',
+    componentPath: 'home/About',
+    path: '/about'
+};
+
 const routeError = {
     name: 'Route Error',
     componentPath: 'routeError/routeError',
@@ -21,12 +28,14 @@ const routeError = {
 const pages = {
     home,
     daily,
+    about,
     routeError
 };
 
 const navItems = [
     home,
-    daily
+    daily,
+    about
 ];
 
 export {

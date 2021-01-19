@@ -8,7 +8,8 @@ import './assets/styles/bootstrap/bootstrap.scss';
 import './index.scss';
 
 ReactDOM.render(
-    <Provider store={buildStore('https://api.covidtracking.com')}>
+    // <Provider store={buildStore('https://api.covidtracking.com')}>
+    <Provider store={buildStore()}>
         <App />
     </Provider>, document.getElementById('root')
 );

@@ -40,6 +40,9 @@ class Navigation extends Component {
             <NavItem>
               <NavLink tag="span"><Link to="/daily">Daily</Link></NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink tag="span"><Link to="/about">About</Link></NavLink>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

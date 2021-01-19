@@ -5,7 +5,8 @@ export const INITIAL_STATE = {
     fetchingCurrentStats: false,
     fetchingDailyStats: false,
     dailyStats: [],
-    currentStats: {}
+    currentStats: {},
+    population: {}
 };
 
 const requestCurrentStats = (state, action) => {
@@ -36,11 +37,27 @@ const receiveDailyStats = (state, action) => {
     });  
 };
 
+const requestPopulation = (state, action) => {
+    return Object.assign({}, state, {
+        fetchingPopulation: true
+    });
+};
+
+const receivePopulation = (state, action) => {
+    console.log('The pop response', action.response);
+    return Object.assign({}, state, {
+        fetchingPopulation: false,
+        population: action.response
+    });  
+};
+
 const ACTION_HANDLERS = {
     [types.API_REQUEST_GET_CURRENT_STATS]: requestCurrentStats,
     [types.API_RECEIVE_CURRENT_STATS]: receiveCurrentStats,
     [types.API_REQUEST_GET_DAILY_STATS]: requestDailyStats,
-    [types.API_RECEIVE_DAILY_STATS]: receiveDailyStats
+    [types.API_RECEIVE_DAILY_STATS]: receiveDailyStats,
+    [types.POP_API_REQUEST_GET_POPULATION]: requestPopulation,
+    [types.POP_API_RECEIVE_GET_POPULATION]: receivePopulation
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Spinner, Button } from 'reactstrap';
+import Block from './Block';
 import { getRandomInt } from '../../util/numberHelpers';
 import './home.scss';
 
@@ -11,7 +12,8 @@ class RenderBlocks extends Component {
         chunks: [],
         rendering: true,
         allowRender: true,
-        currentCount: 0
+        currentCount: 0,
+        defaultChunk: 25000
     };
     this.renderChunk = this.renderChunk.bind(this);
     this.toggleRender = this.toggleRender.bind(this);
@@ -31,16 +33,15 @@ class RenderBlocks extends Component {
 
   renderChunk(count) {
     //const { images } = this.props;
-    const { chunks, allowRender, currentCount } = this.state;
-    const chunkSize = count < 25000 ? count : 25000;
+    const { chunks, allowRender, currentCount, defaultChunk, mouseX, mouseY } = this.state;
+    const chunkSize = count < defaultChunk ? count : defaultChunk;
     if (allowRender) {
       const blocks = [];
       for (let index = 0; index < chunkSize; index++) {
         const imageNumber = getRandomInt(189);
-        //const image = images[`image${imageNumber}`] || images[`image1`];
 
         blocks.push(
-          <span className={`block ${`image${imageNumber}`}`}></span>
+          <Block mouseX={mouseX} mouseY={mouseY} imageNumber={imageNumber} />
         );    
       }
       const newCount = count - chunkSize;
@@ -48,7 +49,7 @@ class RenderBlocks extends Component {
         chunks: chunks.concat(blocks)
       }, () => { 
         window.setTimeout(() => {
-          if (chunkSize >= 25000) {
+          if (chunkSize >= defaultChunk) {
               this.renderChunk(newCount);
           } else {
               this.setState({
@@ -63,12 +64,16 @@ class RenderBlocks extends Component {
   render() {
     const { chunks, rendering, allowRender, leftToGo } = this.state;
     const { currentCopy } = this.props;
+    const currentCount = (
+        <div>
+            {currentCopy != null ? currentCopy : 'Currently showing: '}
+            {chunks.length}
+        </div>
+    );
+
     return (
         <div>
-            <div>
-                {currentCopy != null ? currentCopy : 'Currently showing: '}
-                {chunks.length}
-            </div>
+            {currentCount}
             <div className="block-container">{chunks}</div>
             {rendering && allowRender ? <Button onClick={this.toggleRender}>Toggle Render</Button> : null}
             {rendering && allowRender ? <Spinner /> : null}
