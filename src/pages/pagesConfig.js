@@ -5,6 +5,13 @@ const home = {
     path: '/'
 };
 
+const test = {
+    name: 'Test',
+    bodyClass: 'home',
+    componentPath: 'home/Home_2',
+    path: '/test'
+};
+
 const daily = {
     name: 'Daily',
     bodyClass: 'home',
@@ -29,13 +36,15 @@ const pages = {
     home,
     daily,
     about,
+    test,
     routeError
 };
 
 const navItems = [
     home,
     daily,
-    about
+    about,
+    test
 ];
 
 export {

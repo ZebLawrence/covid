@@ -60,7 +60,7 @@ class Home extends Component {
                 <p><strong>{per1000PeopleDeaths}</strong> out of every <strong>1,000</strong> people in the US have died.</p>
                 {
                   deathIncrease && !fetching
-                    ? <RenderBlocksNoChunk currentCopy={`New deaths on ${moment(dateChecked).format('MMM D, YYYY')}: `} count={deathIncrease} />
+                    ? <RenderBlocksNoChunk currentCopy={`New deaths on ${moment(dateChecked).format('MMM D, YYYY')}: ${deathIncrease}`} count={deathIncrease} />
                     : null
                 }
                 <div className="mt-5">
