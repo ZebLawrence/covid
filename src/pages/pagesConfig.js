@@ -8,7 +8,7 @@ const home = {
 const test = {
     name: 'Test',
     bodyClass: 'home',
-    componentPath: 'home/Home_2',
+    componentPath: 'home/WindowingTest',
     path: '/test'
 };
 

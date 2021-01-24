@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { requestCurrentStats, requestPopulation, requestDailyStats } from '../../actions/covidActions';
 import RenderBlocks from './RenderBlocks';
 import RenderBlocksNoChunk from './RenderBlocksNoChunk';
+import numeral from 'numeral';
 import '../../assets/images.scss';
 import './home.scss';
 
@@ -15,14 +17,10 @@ class Home extends Component {
     getDaily();
     getCurrent();
     getPopulation();
-    this.state = {
-      defaultMessage: 'This is the message from class Home construction',
-      totalBlocks: []
-    };
   }
 
   render() {
-    const { fetching, currentStats, dailyStats, fetchingDaily, populationStats } = this.props;
+    const { fetching, currentStats, dailyStats, fetchingDaily, populationStats, fetchingPopulation } = this.props;
     const { death, deathIncrease, dateChecked } = currentStats || {};
     const { us } = populationStats || {};
     const { population } = us || {};
@@ -52,22 +50,23 @@ class Home extends Component {
         </p>
         {
           !fetching
+          && !fetchingDaily
+          && !fetchingPopulation
+          && deathIncrease
+          && death
             ? <>
                 <p>Since the pandemic began we have endured the equivalent of: <strong>{Math.floor(death / 2977)}</strong> 9/11's.</p>
                 <p>Since the pandemic began roughly: <strong>{Math.floor(death / 10000)}</strong> D-days's.</p>
-                <p>Averaging: <strong>{Math.floor(death / moment().diff(moment('2/26/20'), 'days'))}</strong> per day since the first US deaths ({moment('2/26/20').format('MMM D, YYYY')}).</p>
-                <p>Averaging: <strong>{Math.floor(last7DayTotalDeaths / 7)}</strong> in the last <strong>7</strong> days.</p>
-                <p><strong>{per1000PeopleDeaths}</strong> out of every <strong>1,000</strong> people in the US have died.</p>
-                {
-                  deathIncrease && !fetching
-                    ? <RenderBlocksNoChunk currentCopy={`New deaths on ${moment(dateChecked).format('MMM D, YYYY')}: ${deathIncrease}`} count={deathIncrease} />
-                    : null
-                }
+                <p>Averaging: <strong>{numeral(Math.floor(death / moment().diff(moment('2/26/20'), 'days'))).format('0,0')}</strong> per day since the first US deaths ({moment('2/26/20').format('MMM D, YYYY')}).</p>
+                <p>Averaging: <strong>{numeral(Math.floor(last7DayTotalDeaths / 7)).format('0,0')}</strong> in the last <strong>7</strong> days.</p>
+                <p><strong>{numeral(per1000PeopleDeaths).format('0,0')}</strong> out of every <strong>1,000</strong> people in the US have died.</p>
+                <RenderBlocksNoChunk currentCopy={`New deaths on ${moment(dateChecked).format('MMM D, YYYY')}: ${numeral(deathIncrease).format('0,0')}`} count={deathIncrease} />
                 <div className="mt-5">
-                  {`Total dead: ${death}`}
+                  {`Total dead: ${numeral(death).format('0,0')}`}
                 </div>
-                {death && !fetching ? <RenderBlocks count={death} /> : null}            
-            </> : null
+                <RenderBlocks count={death} />
+            </>
+            : <Spinner />
         }
 
       </div>

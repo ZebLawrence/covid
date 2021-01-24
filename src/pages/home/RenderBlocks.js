@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Spinner, Button } from 'reactstrap';
 import Block from './Block';
 import { getRandomInt } from '../../util/numberHelpers';
+import numeral from 'numeral';
 import './home.scss';
 
 class RenderBlocks extends Component {
@@ -17,10 +18,15 @@ class RenderBlocks extends Component {
     };
     this.renderChunk = this.renderChunk.bind(this);
     this.toggleRender = this.toggleRender.bind(this);
+    this.addBlock = this.addBlock.bind(this);
+    this.renderChunkAtAtime = this.renderChunkAtAtime.bind(this);
+    this.renderAnimateChunk = this.renderAnimateChunk.bind(this);
   }
 
   componentDidMount() {
-    this.renderChunk(this.props.count);
+    //this.renderChunk(this.props.count);
+    //this.renderChunkAtAtime();
+    this.renderAnimateChunk();
   }
 
   toggleRender(){
@@ -29,6 +35,73 @@ class RenderBlocks extends Component {
         allowRender: !allowRender,
         rendering: !rendering
       })
+  }
+
+  renderAnimateChunk() {
+    const { props, renderAnimateChunk, state } = this;
+    const { count } = props;
+    const { chunks, allowRender } = state;
+    const chunk = 25000;
+  
+    if (chunks.length < count) {
+      const chunkLeft = count - chunks.length < chunk ? (count - chunks.length) : chunk;
+      for (let index = 0; index < chunkLeft; index++) {
+        const imageNumber = getRandomInt(189); 
+        chunks.push(
+          <Block imageNumber={imageNumber} />
+        );
+      }
+      this.setState({
+        chunks
+      });
+
+      requestAnimationFrame(renderAnimateChunk);
+    } else {
+      this.setState({
+        allowRender: false,
+        rendering: false
+      });
+    }
+
+  }
+
+  renderChunkAtAtime() {
+    const { addBlock, props } = this;
+    const { count } = props;
+    const chunk = 25000;
+    let renderCount = 0;
+    const renderingBlocks = window.setInterval(() => {
+      const chunkLeft = count - renderCount < chunk ? (count - renderCount) : chunk;
+      renderCount += chunkLeft;
+      if (renderCount <= count) {
+        addBlock(renderingBlocks, chunkLeft);
+      } else {
+        clearInterval(renderingBlocks);
+        this.setState({
+          allowRender: false,
+          rendering: false
+        });
+      }
+    }, 100);
+  }
+
+  addBlock(interval, howMany = 1) {
+      const { chunks, allowRender } = this.state;
+      
+      if (allowRender) {
+        for (let index = 0; index < howMany; index++) {
+          const imageNumber = getRandomInt(189);     
+          chunks.push(
+            <Block imageNumber={imageNumber} />
+          );
+        }
+        
+        this.setState({
+          chunks
+        });
+      } else {
+        clearInterval(interval);
+      }
   }
 
   renderChunk(count) {
@@ -42,7 +115,7 @@ class RenderBlocks extends Component {
 
         blocks.push(
           <Block mouseX={mouseX} mouseY={mouseY} imageNumber={imageNumber} />
-        );    
+        );
       }
       const newCount = count - chunkSize;
       this.setState({
@@ -67,7 +140,7 @@ class RenderBlocks extends Component {
     const currentCount = (
         <div>
             {currentCopy != null ? currentCopy : 'Currently showing: '}
-            {chunks.length}
+            {numeral(chunks.length).format('0,0')}
         </div>
     );
 
@@ -75,7 +148,7 @@ class RenderBlocks extends Component {
         <div>
             {currentCount}
             <div className="block-container">{chunks}</div>
-            {rendering && allowRender ? <Button onClick={this.toggleRender}>Toggle Render</Button> : null}
+            {rendering && allowRender ? <Button onClick={this.toggleRender}>Stop Render</Button> : null}
             {rendering && allowRender ? <Spinner /> : null}
         </div>
     );

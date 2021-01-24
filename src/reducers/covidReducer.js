@@ -44,7 +44,6 @@ const requestPopulation = (state, action) => {
 };
 
 const receivePopulation = (state, action) => {
-    console.log('The pop response', action.response);
     return Object.assign({}, state, {
         fetchingPopulation: false,
         population: action.response

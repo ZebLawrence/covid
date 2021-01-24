@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import moment from 'moment';
 import { requestDailyStats } from '../../actions/covidActions';
-import RenderBlocks from './RenderBlocks';
+import RenderBlocksNoChunk from './RenderBlocksNoChunk';
+import numeral from 'numeral';
 import '../../assets/images.scss';
 import './home.scss';
 
@@ -30,15 +31,12 @@ class Daily extends Component {
         <div>
             {
               dailyDeaths.map(day => {
-                  const { date, deathIncrease } = day || {};
-                  const year = `${date}`.slice(0, 4);
-                  const month = `${date}`.slice(4, 6);
-                  const dayNum = `${date}`.slice(6, 8);
-                  const dateFormat = `${month}/${dayNum}/${year}`;
+                  const { dateChecked, deathIncrease } = day || {};
+
                   if (deathIncrease !== 0) {
                     return (
                         <div className="day-row">
-                            <RenderBlocks currentCopy={`${moment(dateFormat).format('MMM D, YYYY')}:  `} count={deathIncrease} />
+                            <RenderBlocksNoChunk currentCopy={`${moment(dateChecked).format('MMM D, YYYY')}: ${numeral(deathIncrease).format('0,0')}`} count={deathIncrease} />
                         </div>
                     );
                   } else {
