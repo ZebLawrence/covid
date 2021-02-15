@@ -62,8 +62,6 @@ class Home extends Component {
 
     const dayIncreaseToUse = dailyStats && !fetchingDaily && dailyStats.length ? dailyStats.reverse()[selectedDateIndex] : {};
 
-    console.log('The selected day', dayIncreaseToUse);
-
     return (
       <div>
         <p>
