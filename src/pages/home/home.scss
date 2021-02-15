@@ -29,4 +29,36 @@
         padding: 15px;
         border-bottom: 1px solid #ccc;
     }
+
+    .button-row{
+        label{
+            display: block;
+        }
+
+        .btn{
+            padding: 10px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+    }
+
+    .date-select{
+        display: flex;
+        justify-content: flex-start;
+        vertical-align: middle;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        span{
+            line-height: 56px;
+        }
+
+        .form-control{
+            background: none;
+            color: #212529;
+            border-color: #6c757d;
+            margin-left: 10px;
+            margin-right: 10px;
+            width: unset;
+        }
+    }
 }

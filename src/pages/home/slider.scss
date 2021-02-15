@@ -1,0 +1,24 @@
+
+
+.carousel{
+
+    .carousel-inner{
+
+        .carousel-item{
+
+            img{
+                visibility: hidden;
+                height: 100px;
+            }
+
+            .carousel-caption{
+                h3{
+                    p{
+                        color: #000;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
