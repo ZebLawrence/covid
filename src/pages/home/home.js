@@ -13,20 +13,43 @@ import './home.scss';
 class Home extends Component {
   constructor(props){
     super(props);
+    const { getPopulation } = props;
+    const selectedDateIndex = this.getMaxIndex();
+
     this.state = {
       view: 'yesterday',
-      selectedDateIndex: 0
+      selectedDateIndex
     };
-    const { getCurrent, getPopulation, getDaily } = props;
-    getDaily();
-    getCurrent();
     getPopulation();
     this.setView = this.setView.bind(this);
     this.changeDate = this.changeDate.bind(this);
   }
 
+  getMaxIndex(){
+    const { dailyStats } = this.props;
+    let selectedDateIndex = 0;
+    let max = 0;
+    // set highest
+    dailyStats.reverse().forEach((ds, i) => {
+      const { deathIncrease } = ds;
+      if (deathIncrease > max) {
+        max = deathIncrease;
+        selectedDateIndex = i;
+      }
+    });
+
+    return selectedDateIndex;
+  }
+
   setView(view) {
-    this.setState({ view });
+    let selectedDateIndex = 0;
+    if (view === 'yesterday') {
+      selectedDateIndex = this.getMaxIndex();
+    }
+    this.setState({
+      view,
+      selectedDateIndex
+    });
   }
 
   changeDate(event) {
@@ -85,7 +108,7 @@ class Home extends Component {
                 <div className="button-row">
                   <Label>View</Label>
                   <ButtonGroup size="sm">
-                    <Button onClick={() => this.setView('yesterday')} outline={view !== 'yesterday'}>Yesterday</Button>
+                    <Button onClick={() => this.setView('yesterday')} outline={view !== 'yesterday'}>Most in a Single Day</Button>
                     <Button onClick={() => this.setView('daily')} outline={view !== 'daily'}>Daily</Button>
                     <Button onClick={() => this.setView('total')} outline={view !== 'total'}>Total</Button>
                   </ButtonGroup>
@@ -95,12 +118,16 @@ class Home extends Component {
                     ? (
                       <>
                         <div className="date-select">
-                          <span>{`New deaths:`}</span>
+                          <span>{`Deaths on:`}</span>
                           <Input type="select" onChange={this.changeDate}>
                             {dailyDeaths.map((day, index) => {
                               const { dateChecked, deathIncrease } = day || {};
                               return (
-                                <option value={index}>{`${moment(dateChecked).format('MMM D, YYYY')}: ${numeral(deathIncrease).format('0,0')}`}</option>
+                                <option
+                                  selected={index === selectedDateIndex}
+                                  value={index}>
+                                    {`${moment(dateChecked).format('MMM D, YYYY')}: ${numeral(deathIncrease).format('0,0')}`}
+                                </option>
                               );
                             })}
                           </Input>
@@ -164,8 +191,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getCurrent: () => dispatch(requestCurrentStats()),
-  getDaily: () => dispatch(requestDailyStats()),
   getPopulation: () => dispatch(requestPopulation())
 });
 

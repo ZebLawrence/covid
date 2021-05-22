@@ -1,39 +1,41 @@
 import types from '../actions/types';
 import { createReducer } from 'reduxsauce';
+import current from './current.json';
+import daily from './daily.json';
 
 export const INITIAL_STATE = {
     fetchingCurrentStats: false,
     fetchingDailyStats: false,
-    dailyStats: [],
-    currentStats: {},
+    dailyStats: daily,
+    currentStats: current[0],
     population: {}
 };
 
 const requestCurrentStats = (state, action) => {
     return Object.assign({}, state, {
-        fetchingCurrentStats: true
+        //fetchingCurrentStats: true
     });
 };
 
 const receiveCurrentStats = (state, action) => {
     return Object.assign({}, state, {
-        fetchingCurrentStats: false,
-        currentStats: action.response && action.response.length && action.response[0]
-            ? action.response[0]
-            : {}
+        // fetchingCurrentStats: false,
+        // currentStats: action.response && action.response.length && action.response[0]
+        //     ? action.response[0]
+        //     : {}
     });  
 };
 
 const requestDailyStats = (state, action) => {
     return Object.assign({}, state, {
-        fetchingDailyStats: true
+        //fetchingDailyStats: true
     });
 };
 
 const receiveDailyStats = (state, action) => {
     return Object.assign({}, state, {
-        fetchingDailyStats: false,
-        dailyStats: action.response
+        // fetchingDailyStats: false,
+        // dailyStats: action.response
     });  
 };
 
